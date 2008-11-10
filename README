@@ -1,0 +1,50 @@
+Simple-Flickr
+Jerrett Taylor (jerrett@gmail.com)
+
+DESCRIPTION:
+
+  This is an interface into the Flickr REST API. There are a bunch of various libraries that do this, 
+  but most of the ones I found are out of date and no longer work with the new(ish) Flickr API,
+  partially work, or resulted in general funkyness. 
+  
+  At the moment, this does what I need. Feel free to do what you want with it, and let me know if 
+  you make changes, fix bugs, or add any features - i'd be more than happy to accept any patches!
+
+FEATURES/PROBLEMS: 
+
+  This currently only provides a wrapper around public data (non-authenticated stuff), but it would not be
+  too tricky to add authenticated stuff in at a later date, should it be needed. 
+
+  This currently provides wrapping for people, photos, and photosets. For anything else, you can use the 
+  Flickr::Client#request and get hpricot documents back, which are easy to parse... or, submit a patch with the missing
+  wrappers!
+
+SYNOPSIS:
+
+   client = Flickr::Client.new( 'apikey' )
+   person = client.person( 'jerrett taylor' ) 
+   => #<Flickr::Person:0x11e5e14 ...>>
+   person.photosets.first.title
+   => "Macro"
+   person.photosets.first.photos
+   => [#<Flickr::Photo:0x116ab10 ...>
+
+REQUIREMENTS: 
+  - Hpricot
+
+LICENSE:
+
+  Copyright (c) 2008 Jerrett Taylor
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation 
+  files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, 
+  modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software
+  is furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES 
+  OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE 
+  LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR 
+  IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
