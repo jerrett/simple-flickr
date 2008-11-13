@@ -58,6 +58,7 @@ module Flickr
     end
     
     # Make a request to flickr. This will cache (per Flickr::Client instance) requests to avoid uneccesary traffic.
+    # This will raise a Flickr::RequestError if something goes wrong.
     # 
     # === Parameters
     # :method<String>:: The method to call. This is any method from the Flickr API:  http://www.flickr.com/services/api/ (but 
@@ -77,7 +78,11 @@ module Flickr
       
       return @cached_requests[ url ] if @cached_requests.has_key? url
       
-      response = Hpricot.XML( open(url).read ).at('rsp')
+      begin 
+        response = Hpricot.XML( open(url).read ).at('rsp')
+      rescue Timeout::Error, OpenURI::HTTPError, Errno::ECONNRESET, SocketError, Errno::ECONNREFUSED => e
+        raise RequestError.new(0, e)
+      end
       raise RequestError.new(response.at('err')['code'], response.at('err')['msg']) unless response['stat'] == 'ok'
       
       @cached_requests[ url ] = response
