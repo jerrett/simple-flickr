@@ -15,7 +15,7 @@ describe Flickr::Client do
     @flickr.request( 'favorites.getList', :user_id => '123456789N00', :per_page => 4 )
   end
   
-  [Errno::ETIMEDOUT,Timeout::Error.new(nil), OpenURI::HTTPError.new(nil,nil), Errno::ECONNRESET, SocketError, Errno::ECONNREFUSED].each do |e| 
+  [Errno::ETIMEDOUT, OpenURI::HTTPError.new(nil,nil), Errno::ECONNRESET, SocketError, Errno::ECONNREFUSED].each do |e| 
     it "should raise an appropriate error if open-uri raises #{e}" do
       @flickr.should_receive( :open ).and_raise( e )
       proc { @flickr.request( 'test.echo' ) }.should raise_error( Flickr::RequestError )

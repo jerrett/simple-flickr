@@ -59,6 +59,26 @@ describe Flickr::Photo do
   
     @client.should_receive( :request ).with( 'person.listPhotos', :foo => 'bar' ).and_return( photosets_xml )
     Flickr::Photos.should_receive( :new ).with( photosets_xml.at('photoset'), @client )
-    Flickr::Photo.api_query(  'person.listPhotos', @client, :foo => 'bar')  
+    Flickr::Photo.api_query(  'person.listPhotos', @client, :foo => 'bar')
+  end
+
+  it 'should parse dates' do
+    xml = Hpricot.parse( '<photos page="2" pages="89" perpage="10" total="881"><photo id="2636" owner="47058503995@N01" farm="1" secret="a123456" server="2" title="test_04" ispublic="1" isfriend="0" isfamily="0" datetaken="2006-04-15 00:00:00" dateupload="1191939237" /></photos>' )
+
+    photo = Flickr::Photo.new( xml.at('photo'), @client )
+
+    photo.taken_at.should == Time.parse("2006-04-15 00:00:00 UTC")
+    photo.taken_at.should be_utc
+
+    photo.uploaded_at.should == Time.parse("2007-10-09 14:13:57 UTC")
+    photo.uploaded_at.should be_utc
+  end
+
+  it 'should ignore parsing errors on date taken' do
+    xml = Hpricot.parse( '<photos page="2" pages="89" perpage="10" total="881"><photo id="2636" owner="47058503995@N01" farm="1" secret="a123456" server="2" title="test_04" ispublic="1" isfriend="0" isfamily="0" datetaken="2006-04-00 00:00:00" dateupload="1191939237" /></photos>' )
+
+    photo = Flickr::Photo.new( xml.at('photo'), @client )
+
+    photo.taken_at.should be_nil
   end
 end
