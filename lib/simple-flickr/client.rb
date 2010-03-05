@@ -80,7 +80,7 @@ module Flickr
       
       begin 
         response = Hpricot.XML( open(url).read ).at('rsp')
-      rescue Errno::ETIMEDOUT, OpenURI::HTTPError, Errno::ECONNRESET, SocketError, Errno::ECONNREFUSED => e
+      rescue Errno::ETIMEDOUT, Timeout::Error, OpenURI::HTTPError, Errno::ECONNRESET, SocketError, Errno::ECONNREFUSED => e
         raise RequestError.new(0, e)
       end
       raise RequestError.new(response.at('err')['code'], response.at('err')['msg']) unless response['stat'] == 'ok'
