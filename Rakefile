@@ -8,7 +8,7 @@ task :default => :spec
 
 spec = Gem::Specification.new do |s|
   s.name         = 'simple-flickr'
-  s.version      = '0.1.0'
+  s.version      = '0.1.1'
   s.summary      = "A wrapper for Flickrs REST API"
   s.description  = "A wrapper for Flickrs REST API."
 
@@ -24,7 +24,7 @@ spec = Gem::Specification.new do |s|
   s.has_rdoc         = false
  
   # Dependencies
-  s.add_dependency "hpricot", [">= 0.6.0"]
+  s.add_dependency "hpricot", [">= 0.8.0"]
   
   # Requirements
   s.required_ruby_version = ">= 1.8.6"
