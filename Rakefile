@@ -8,7 +8,7 @@ task :default => :spec
 
 spec = Gem::Specification.new do |s|
   s.name         = 'simple-flickr'
-  s.version      = '0.1.1'
+  s.version      = '0.1.2'
   s.summary      = "A wrapper for Flickrs REST API"
   s.description  = "A wrapper for Flickrs REST API."
 
