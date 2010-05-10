@@ -5,13 +5,12 @@ class Flickr::ProxyTest
 end
 
 describe Flickr::ProxyTest do
+  before( :each ) do 
+    @client = mock( 'Flickr::Client' )
+    @xml = Hpricot.parse( '<doc><proxytest id="2636" var1="test" foo="bar" /></doc>' ).at( 'proxytest' )
+  end
   
   describe 'when dealing with attributes' do 
-    before( :each ) do 
-      @client = mock( 'Flickr::Client' )
-      @xml = Hpricot.parse( '<doc><proxytest id="2636" var1="test" foo="bar" /></doc>' ).at( 'proxytest' )
-    end
-
     it 'should set the attributes' do 
       proxy = Flickr::ProxyTest.new( @xml, @client )
       proxy.id.should == "2636"
