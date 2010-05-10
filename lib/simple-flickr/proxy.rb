@@ -38,7 +38,7 @@ module Flickr
     
     # This maps method calls to attributes.
     def method_missing( method, *args ) # :nodoc:
-      return @attributes[method.to_s] if @attributes[method.to_s]
+      return @attributes[method.to_s] if @attributes.include?(method.to_s)
       super
     end
 

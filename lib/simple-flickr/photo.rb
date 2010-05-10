@@ -17,8 +17,13 @@ module Flickr
       super( xml, client )
       @attributes['title'] ||= xml.search('title').text
       @attributes['description'] = xml.search('description').text
-      @attributes['uploaded_at'] = Time.at((@attributes.delete('dateuploaded') or @attributes.delete('dateupload')).to_i)
+      @attributes['uploaded_at'] = Time.at((@attributes.delete('dateuploaded') or @attributes.delete('dateupload')).to_i).utc
       @attributes['owner'] ||= xml.at('owner').attributes['nsid'] if xml.at('owner')
+      @attributes['taken_at'] = begin
+        Time.parse("#{@attributes.delete('datetaken')} UTC") if @attributes.include?('datetaken')
+      rescue ArgumentError
+        nil
+      end
     end
 
     # Get the person associated with this photo
