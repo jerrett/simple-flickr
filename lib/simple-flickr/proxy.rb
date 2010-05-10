@@ -27,7 +27,7 @@ module Flickr
     # :xml<Hpricot::Elem>:: XML from Flickr, in Hpricot form. 
     # :client<Flickr::Client>:: A Flickr::Client to use for communication with flickr.
     def initialize( xml, client )
-      @attributes = xml.attributes
+      @attributes = xml.raw_attributes
       @client = client
     end
     
