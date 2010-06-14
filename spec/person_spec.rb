@@ -82,6 +82,16 @@ describe Flickr::Person do
     Flickr::Photo.should_receive( :api_query ).with( 'people.getPublicPhotos', @client, :user_id => '12037949754@N01', :per_page => 2 ).and_return( photos )
     @person.photos( :per_page => 2).should == photos    
   end
+
+  it 'should return the users public groups' do 
+    group_xml = Hpricot.parse( '<rsp stat="ok"><group nsid="34427469792@N01" name="FlickrCentral" admin="0" eighteenplus="0" /></rsp>' )
+    @client.should_receive( :request ).with( 'people.getPublicGroups', :user_id => '12037949754@N01' ).and_return( group_xml )
+    groups = @person.groups
+    groups[0].should be_kind_of(Flickr::Group)
+    groups[0].id.should == '34427469792@N01'
+    groups[0].name.should == 'FlickrCentral'
+  end
+
   
   it 'should return the users favorites' do 
     photos = mock( 'photos' )

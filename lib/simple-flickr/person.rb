@@ -32,6 +32,11 @@ module Flickr
       Photo.api_query( 'people.getPublicPhotos', @client, options.merge(:user_id => id)  )
     end
     
+    def groups
+      xml = @client.request( 'people.getPublicGroups', :user_id => id )
+      return xml.search('group').collect { |g| Flickr::Group.new(g, @client) }
+    end
+
     # Return the persons photosets.
     # 
     # === Returns
