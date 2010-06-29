@@ -23,7 +23,8 @@ module Flickr
     end
 
     def photos( options = {} )
-      Photo.api_query( 'photos.search', @client, :group_id => id )
+      options.merge!( :group_id => id )
+      Photo.api_query( 'photos.search', @client, options )
     end
   end
 end
